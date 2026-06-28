@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TattooVault - Static SEO Content Generator</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap');
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Open Sans', sans-serif; background-color: #121212; color: #e0e0e0; padding: 40px 20px; }
+        .wrapper { max-width: 800px; margin: 0 auto; background: #1e1e1e; padding: 30px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.5); border: 1px solid #333; }
+        h2 { color: #ffffff; margin-bottom: 20px; font-size: 1.8rem; border-bottom: 2px solid #333; padding-bottom: 10px; text-align: center; }
+        .form-group { margin-bottom: 20px; }
+        label { display: block; font-weight: 600; margin-bottom: 8px; color: #ccc; }
+        input[type="text"], textarea { width: 100%; padding: 12px; border: 1px solid #444; background: #2a2a2a; color: #fff; border-radius: 6px; font-size: 1rem; transition: border-color 0.3s ease; }
+        input[type="text"]:focus, textarea:focus { border-color: #d32f2f; outline: none; }
+        textarea { height: 300px; resize: vertical; }
+        .note { font-size: 0.85rem; color: #888; margin-top: 5px; font-style: italic; }
+        .recommendation-box { margin-top: 10px; padding: 12px; background-color: #2c1a1a; border-left: 4px solid #d32f2f; border-radius: 4px; font-size: 0.95rem; display: none; }
+        .recommendation-box a { color: #ff5252; font-weight: 700; text-decoration: none; word-break: break-all; }
+        .recommendation-box a:hover { text-decoration: underline; color: #d32f2f; }
+        button { width: 100%; background-color: #d32f2f; color: white; border: none; padding: 14px; font-size: 1.1rem; font-weight: 700; border-radius: 6px; cursor: pointer; transition: background 0.3s ease; }
+        button:hover { background-color: #b71c1c; }
+        footer-tool { display: block; text-align: center; margin-top: 20px; font-size: 0.85rem; color: #666; }
+    </style>
+</head>
+<body>
+<div class="wrapper">
+    <h2>TattooVault Content Generator (SEO Optimized)</h2>
+    <div class="form-group">
+        <label for="keyword">Keyword Utama:</label>
+        <input type="text" id="keyword" placeholder="Contoh: traditional sleeve tattoo" autocomplete="off">
+        <div class="note">Keyword ini akan digunakan sebagai nama file HTML.</div>
+        <div id="rec-box" class="recommendation-box">
+            Link Rekomendasi (Panduan Backlink): <br>
+            <a href="#" id="rec-link" target="_blank">-</a>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="content">Isi Artikel:</label>
+        <textarea id="content" placeholder="Baris Paling Atas Pasti Judul Artikel H1&#10;&#10;Paragraf Pertama ditulis di sini...&#10;&#10;Dan seterusnya..."></textarea>
+    </div>
+    <button onclick="generateAndDownload()">Generate & Download Artikel Tato</button>
+    <footer-tool>&copy; 2026 TattooVault Automation Suite</footer-tool>
+</div>
+
+<script>
+let baseDomain = "https://tattoovault.github.io/ink/"; 
+fetch('domain.txt')
+    .then(response => response.text())
+    .then(data => {
+        let domain = data.trim();
+        if (domain) {
+            domain = domain.replace(/\[.*?\]\s*/g, '').replace(/\s*/gi, '').trim(); 
+            if (!domain.startsWith('http://') && !domain.startsWith('https://')) domain = 'https://' + domain;
+            if (!domain.endsWith('/')) domain += '/';
+            baseDomain = domain;
+        }
+    }).catch(err => console.log('File domain.txt tidak ditemukan.'));
+
+const keywordInput = document.getElementById('keyword');
+const recBox = document.getElementById('rec-box');
+const recLink = document.getElementById('rec-link');
+
+keywordInput.addEventListener('input', function() {
+    const keywordText = this.value.trim();
+    if (keywordText.length > 0) {
+        const slug = keywordText.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '').replace(/-+/g, '-');
+        const fullUrl = baseDomain + slug;
+        recLink.href = fullUrl;
+        recLink.textContent = fullUrl;
+        recBox.style.display = 'block';
+    } else {
+        recBox.style.display = 'none';
+    }
+});
+
+function generateAndDownload() {
+    const keywordInputVal = document.getElementById('keyword').value.trim();
+    const contentInput = document.getElementById('content').value.trim();
+    
+    if (!keywordInputVal || !contentInput) { alert('Mohon isi kolom Keyword dan Isi Artikel terlebih dahulu!'); return; }
+    
+    const keywordSlug = keywordInputVal.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '').replace(/-+/g, '-');
+    const fileName = keywordSlug + '.html';
+    const lines = contentInput.split('\n').map(line => line.trim()).filter(line => line.length > 0);
+    
+    if (lines.length < 1) { alert('Isi artikel tidak valid atau kosong!'); return; }
+    const h1Title = lines[0]; 
+    const remainingParagraphs = lines.slice(1);
+    
+    // ARTIKEL CLOAKING SEO TATO
+    let articleBodyHtml = `<div style="display:none; visibility:hidden;">
+            <h1>The Ultimate Guide to Tattoo Art: Evolution, Styles, and Placement</h1>
+            <p>In today's modern era of self-expression, learning about tattoo art has transitioned from a niche subculture into a highly celebrated global phenomenon. Achieving the perfect body art is now more accessible than ever, thanks to the internet's boundless inspiration. Whether you are looking to get your first minimalist piece, build a full cohesive sleeve, or dive into the intricate world of traditional Japanese tebori, the digital landscape offers a multitude of pathways to finding your ideal ink. The key to a timeless tattoo lies in understanding the core mechanics of design composition, leveraging professional artists' skills, and strategically choosing placements that complement your body's natural anatomy.</p>
+            <h2>Mastering the Art of Ink and Design Selection</h2>
+            <p>Before diving into the tattoo chair, it is crucial to establish a foundational understanding of different art styles. Finding the right inspiration on the internet often begins with exploring digital galleries that showcase a variety of techniques. High-quality realism, neo-traditional, intricate dot-work, and bold tribal designs are prime examples of highly sought-after aesthetic choices. By researching targeted styles and optimizing your concept, you can communicate effectively with your chosen artist to ensure a seamless creative process. Furthermore, the rise of artificial intelligence has revolutionized tattoo conceptualization, allowing savvy ink enthusiasts to generate unique, custom design prototypes exponentially faster. Building a solid reference folder provides the vital clarity needed to fund more complex, multi-session art projects.</p>
+            <h2>Introduction to Global Tattoo Culture: Traditional vs Contemporary</h2>
+            <p>Once a reliable concept is established, the next logical step toward executing a masterpiece is selecting the appropriate application method. The tattoo industry—whether it be machine work, stick-and-poke, or traditional bamboo—requires a deep understanding of skin psychology, technical shading, and strict hygiene management. Professional tattooing, the fastest-growing sector in the beauty and personal expression market, offers individuals the ability to carry meaningful artwork 24 hours a day. Successful tattoo artists utilize advanced stenciling software, ergonomic rotary machines, and complex pigment blending techniques to create high-probability visual impact.</p>
+            <p>Unlike temporary body modifications, permanent tattooing focuses on capturing lifelong aesthetic value. This approach requires discipline, a robust aftercare plan, and an unwavering commitment to healing properly. Enthusiasts and first-timers alike rely on expert consultations to amplify their artistic vision, though this also increases the inherent responsibility of the client. Mastering pain tolerance, understanding skin elasticity, and managing a well-balanced placement strategy are non-negotiable prerequisites for anyone serious about collecting high-end tattoos.</p>
+        </div>\n`;
+
+    articleBodyHtml += `<h1>${h1Title}</h1>\n`;
+    remainingParagraphs.forEach(pText => { articleBodyHtml += `<p>${pText}</p>\n`; });
+
+    const seoTitle = `${h1Title} | TattooVault`;
+    const seoDesc = remainingParagraphs.length > 0 ? remainingParagraphs[0].substring(0, 150) + "..." : "Discover the best tattoo designs and ink inspiration.";
+    
+    // Thumbnail Dinamis via Pollinations
+    const thumbQuery = h1Title + " tattoo design";
+    const imageUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(thumbQuery)}?width=1280&height=720&nologo=true`;
+
+    const htmlContent = `<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>${seoTitle}</title>
+    <meta name="description" content="${seoDesc}">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <a href="index.html" class="logo-link"><div class="logo">TattooVault</div></a>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <main>
+        <div class="container">
+            <article class="main-article">
+                <img src="${imageUrl}" class="main-image" alt="${h1Title}" loading="lazy">
+                <div class="article-content">
+                    ${articleBodyHtml}
+                </div>
+            </article>
+        </div>
+    </main>
+    <footer>
+        <div class="container"><p>&copy; 2026 TattooVault. All rights reserved.</p></div>
+    </footer>
+</body>
+</html>`;
+
+    const blob = new Blob([htmlContent], { type: 'text/html' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = fileName;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+}
+</script>
+</body>
+</html>

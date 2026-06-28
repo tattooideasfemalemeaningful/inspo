@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loading Design...</title>
+    <script>
+        (function() {
+            var currentPath = window.location.pathname;
+            var pathSegments = currentPath.split('/').filter(Boolean);
+            var keyword = pathSegments.pop(); 
+            
+            if (keyword) {
+                keyword = keyword.replace(/\.html$/, '');
+                var queryParams = window.location.search;
+                var newPath = window.location.origin + '/' + pathSegments.join('/');
+                if (newPath !== window.location.origin + '/') newPath += '/';
+                var targetUrl = newPath + 'detail.html?q=' + encodeURIComponent(keyword) + queryParams;
+                window.location.replace(targetUrl);
+            } else {
+                window.location.replace('/');
+            }
+        })();
+    </script>
+</head>
+<body>
+    <p>Loading your tattoo design...</p>
+</body>
+</html>
