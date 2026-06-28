@@ -45,7 +45,7 @@ document.addEventListener('DOMContentLoaded', function() {
         isLoading = true;
         
         if (loader) {
-            loader.innerHTML = '<button id="btn-loadmore" class="btn-loadmore" disabled>Generating Ink...</button>';
+            loader.innerHTML = '<button id="btn-loadmore" class="btn-loadmore" disabled>Loading Ink...</button>';
         }
 
         const fragment = document.createDocumentFragment();
@@ -55,10 +55,9 @@ document.addEventListener('DOMContentLoaded', function() {
             const keyword = allKeywords[i];
             const title = generateSeoTitle(keyword);
             
-            // Gambar Thumbnail HD AI API
-            const seed = Math.floor(Math.random() * 99999);
-            const queryImage = `${keyword} tattoo design, trending on artstation`;
-            const imageUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(queryImage)}?width=600&height=400&nologo=true&seed=${seed}`;
+            // KEMBALI KE BING IMAGE SCRAPER (Optimasi resolusi 600x400 untuk Thumbnail Grid Homepage)
+            const queryImage = keyword + " tattoo ideas quality";
+            const imageUrl = `https://tse1.mm.bing.net/th?q=${encodeURIComponent(queryImage)}&w=600&h=400&c=7&rs=1&p=0&dpr=2&pid=1.7`;
             
             const slug = keyword.toLowerCase().replace(/\s+/g, '-');
             const detailUrl = `detail.html?q=${slug}`;

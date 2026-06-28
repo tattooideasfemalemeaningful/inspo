@@ -98,9 +98,9 @@ document.addEventListener('DOMContentLoaded', function() {
             document.title = `${newTitle} | TattooVault`;
             if(detailTitle) detailTitle.textContent = newTitle;
             
-            // AI Image Generator untuk ketajaman HD 1280x720. Dijamin tidak pecah.
-            const queryImage = `${term} tattoo design masterpiece, high detail, studio lighting, 8k`;
-            const mainImageUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(queryImage)}?width=1280&height=720&nologo=true`;
+            // KEMBALI KE BING IMAGE SCRAPER (Optimasi resolusi 1280x720 dan dpr=2 agar tajam)
+            const queryImage = term + " tattoo design high quality";
+            const mainImageUrl = `https://tse1.mm.bing.net/th?q=${encodeURIComponent(queryImage)}&w=1280&h=720&c=7&rs=1&p=0&dpr=2&pid=1.7`;
             
             if(detailImageContainer) {
                 detailImageContainer.innerHTML = `<img src="${mainImageUrl}" alt="${newTitle}" class="main-image" loading="lazy">`;
@@ -129,10 +129,9 @@ document.addEventListener('DOMContentLoaded', function() {
                             const slug = k.replace(/\s+/g, '-');
                             const detailUrl = `detail.html?q=${slug}`;
                             
-                            // Thumbnail AI resolusi 600x400 (Tajam untuk widget)
-                            const seed = Math.floor(Math.random() * 99999);
-                            const thumbQuery = `${k} tattoo design`;
-                            const thumbUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(thumbQuery)}?width=600&height=400&nologo=true&seed=${seed}`;
+                            // KEMBALI KE BING IMAGE SCRAPER UNTUK THUMBNAIL (Optimasi resolusi 600x400)
+                            const thumbQuery = k + " tattoo ideas";
+                            const thumbUrl = `https://tse1.mm.bing.net/th?q=${encodeURIComponent(thumbQuery)}&w=600&h=400&c=7&rs=1&p=0&dpr=2&pid=1.7`;
                             
                             html += `
                                 <a href="${detailUrl}" class="related-post-card">

@@ -106,9 +106,9 @@ function generateAndDownload() {
     const seoTitle = `${h1Title} | TattooVault`;
     const seoDesc = remainingParagraphs.length > 0 ? remainingParagraphs[0].substring(0, 150) + "..." : "Discover the best tattoo designs and ink inspiration.";
     
-    // Thumbnail Dinamis via Pollinations
-    const thumbQuery = h1Title + " tattoo design";
-    const imageUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(thumbQuery)}?width=1280&height=720&nologo=true`;
+    // KEMBALI KE BING IMAGE SCRAPER (Resolusi Besar HD)
+    const thumbQuery = h1Title + " tattoo design high quality";
+    const imageUrl = `https://tse1.mm.bing.net/th?q=${encodeURIComponent(thumbQuery)}&w=1280&h=720&c=7&rs=1&p=0&dpr=2&pid=1.7`;
 
     const htmlContent = `<!DOCTYPE html>
 <html lang="en">
