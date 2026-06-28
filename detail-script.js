@@ -98,7 +98,7 @@ document.addEventListener('DOMContentLoaded', function() {
             document.title = `${newTitle} | TattooVault`;
             if(detailTitle) detailTitle.textContent = newTitle;
             
-            // KEMBALI KE BING IMAGE SCRAPER (Optimasi resolusi 1280x720 dan dpr=2 agar tajam)
+            // BING IMAGE SCRAPER (Resolusi 1280x720)
             const queryImage = term + " tattoo design high quality";
             const mainImageUrl = `https://tse1.mm.bing.net/th?q=${encodeURIComponent(queryImage)}&w=1280&h=720&c=7&rs=1&p=0&dpr=2&pid=1.7`;
             
@@ -115,7 +115,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     let keywords = data.split('\n').map(k => k.trim()).filter(k => k.length > 0);
                     keywords = keywords.sort(() => 0.5 - Math.random());
                     
-                    const maxRelated = 6;
+                    // UBAH LIMIT RELATED POST MENJADI 8
+                    const maxRelated = 8;
                     let added = 0;
                     let html = '';
                     
@@ -129,7 +130,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             const slug = k.replace(/\s+/g, '-');
                             const detailUrl = `detail.html?q=${slug}`;
                             
-                            // KEMBALI KE BING IMAGE SCRAPER UNTUK THUMBNAIL (Optimasi resolusi 600x400)
+                            // BING IMAGE SCRAPER THUMBNAIL (Resolusi 600x400)
                             const thumbQuery = k + " tattoo ideas";
                             const thumbUrl = `https://tse1.mm.bing.net/th?q=${encodeURIComponent(thumbQuery)}&w=600&h=400&c=7&rs=1&p=0&dpr=2&pid=1.7`;
                             

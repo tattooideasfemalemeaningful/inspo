@@ -106,7 +106,7 @@ function generateAndDownload() {
     const seoTitle = `${h1Title} | TattooVault`;
     const seoDesc = remainingParagraphs.length > 0 ? remainingParagraphs[0].substring(0, 150) + "..." : "Discover the best tattoo designs and ink inspiration.";
     
-    // KEMBALI KE BING IMAGE SCRAPER (Resolusi Besar HD)
+    // BING IMAGE SCRAPER (Resolusi Besar HD)
     const thumbQuery = h1Title + " tattoo design high quality";
     const imageUrl = `https://tse1.mm.bing.net/th?q=${encodeURIComponent(thumbQuery)}&w=1280&h=720&c=7&rs=1&p=0&dpr=2&pid=1.7`;
 
@@ -140,11 +140,75 @@ function generateAndDownload() {
                     ${articleBodyHtml}
                 </div>
             </article>
+
+            <!-- RELATED POST GENERATOR OUTPUT -->
+            <section class="related-posts-section">
+                <h3>More Ink Inspiration</h3>
+                <div id="related-posts-container" class="related-grid">
+                    <!-- Loaded dynamically via inline script below -->
+                </div>
+            </section>
         </div>
     </main>
     <footer>
         <div class="container"><p>&copy; 2026 TattooVault. All rights reserved.</p></div>
     </footer>
+    
+    <!-- SCRIPT INJEKSI KE FILE STATIS UNTUK MEMANGGIL 8 RELATED POSTS -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const displayedKeywords = new Set(["${keywordSlug}"]);
+            const relatedContainer = document.getElementById('related-posts-container');
+            
+            function capitalizeEachWord(str) { 
+                if (!str) return ''; 
+                return str.toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' '); 
+            }
+
+            function generateSeoTitle(baseKeyword) { 
+                const hookWords = ['Awesome', 'Badass', 'Stunning', 'Unique', 'Creative', 'Intricate', 'Bold', 'Incredible', 'Inspiring', 'Epic']; 
+                const suffixWords = ['Tattoo Ideas', 'Tattoo Designs', 'Ink Inspiration', 'Body Art', 'Tattoo Concepts'];
+                const randomHook = hookWords[Math.floor(Math.random() * hookWords.length)]; 
+                const randomSuffix = suffixWords[Math.floor(Math.random() * suffixWords.length)];
+                return randomHook + ' ' + capitalizeEachWord(baseKeyword) + ' ' + randomSuffix; 
+            }
+
+            fetch('keyword.txt')
+                .then(response => response.text())
+                .then(data => {
+                    let keywords = data.split('\\n').map(k => k.trim()).filter(k => k.length > 0);
+                    keywords = keywords.sort(() => 0.5 - Math.random());
+                    
+                    const maxRelated = 8;
+                    let added = 0;
+                    let html = '';
+                    
+                    for (let i = 0; i < keywords.length; i++) {
+                        if (added >= maxRelated) break;
+                        let k = keywords[i].toLowerCase();
+                        
+                        if (!displayedKeywords.has(k)) {
+                            displayedKeywords.add(k);
+                            const relatedTitle = generateSeoTitle(k);
+                            const slug = k.replace(/\\s+/g, '-');
+                            const detailUrl = '${baseDomain}' + 'detail.html?q=' + slug;
+                            
+                            const thumbQuery = k + " tattoo ideas";
+                            const thumbUrl = 'https://tse1.mm.bing.net/th?q=' + encodeURIComponent(thumbQuery) + '&w=600&h=400&c=7&rs=1&p=0&dpr=2&pid=1.7';
+                            
+                            html += '<a href="' + detailUrl + '" class="related-post-card"><img src="' + thumbUrl + '" alt="' + relatedTitle + '" class="related-post-img" loading="lazy"><div class="related-post-title">' + relatedTitle + '</div></a>';
+                            added++;
+                        }
+                    }
+                    if (relatedContainer) {
+                        relatedContainer.innerHTML = html;
+                    }
+                })
+                .catch(err => {
+                    if (relatedContainer) relatedContainer.innerHTML = '<p>No related tattoos found.</p>';
+                });
+        });
+    <\/script>
 </body>
 </html>`;
 

@@ -1,7 +1,8 @@
 document.addEventListener('DOMContentLoaded', function() {
     let allKeywords = [];
     let currentIndex = 0;
-    const batchSize = 15;
+    // UBAH BATCH SIZE MENJADI 16
+    const batchSize = 16;
     let isLoading = false;
     const contentContainer = document.getElementById('auto-content-container');
     const loader = document.getElementById('loader');
@@ -55,7 +56,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const keyword = allKeywords[i];
             const title = generateSeoTitle(keyword);
             
-            // KEMBALI KE BING IMAGE SCRAPER (Optimasi resolusi 600x400 untuk Thumbnail Grid Homepage)
+            // BING IMAGE SCRAPER (Optimasi resolusi 600x400 untuk Thumbnail Grid Homepage)
             const queryImage = keyword + " tattoo ideas quality";
             const imageUrl = `https://tse1.mm.bing.net/th?q=${encodeURIComponent(queryImage)}&w=600&h=400&c=7&rs=1&p=0&dpr=2&pid=1.7`;
             
