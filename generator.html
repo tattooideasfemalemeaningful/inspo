@@ -101,6 +101,10 @@ function generateAndDownload() {
         </div>\n`;
 
     articleBodyHtml += `<h1>${h1Title}</h1>\n`;
+    
+    // INJEKSI SCRIPT AD2 DI BAWAH JUDUL H1 PADA ISI ARTIKEL
+    articleBodyHtml += `<center><script src="https://seribudollarperhari.github.io/banner/ad2.js"><\/script></center>\n`;
+    
     remainingParagraphs.forEach(pText => { articleBodyHtml += `<p>${pText}</p>\n`; });
 
     const seoTitle = `${h1Title} | TattooVault`;
@@ -110,6 +114,7 @@ function generateAndDownload() {
     const thumbQuery = h1Title + " tattoo design high quality";
     const imageUrl = `https://tse1.mm.bing.net/th?q=${encodeURIComponent(thumbQuery)}&w=1280&h=720&c=7&rs=1&p=0&dpr=2&pid=1.7`;
 
+    // SCRIPT INJEKSI FINAL HTML
     const htmlContent = `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -120,6 +125,8 @@ function generateAndDownload() {
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <center><script src="https://seribudollarperhari.github.io/banner/ad1.js"><\/script></center>
+    
     <header>
         <div class="container">
             <a href="index.html" class="logo-link"><div class="logo">TattooVault</div></a>
@@ -141,6 +148,8 @@ function generateAndDownload() {
                 </div>
             </article>
 
+            <center><script src="https://seribudollarperhari.github.io/banner/ad3.js"><\/script></center>
+
             <!-- RELATED POST GENERATOR OUTPUT -->
             <section class="related-posts-section">
                 <h3>More Ink Inspiration</h3>
@@ -148,6 +157,9 @@ function generateAndDownload() {
                     <!-- Loaded dynamically via inline script below -->
                 </div>
             </section>
+            
+            <center><script src="https://seribudollarperhari.github.io/banner/nativ.js"><\/script></center>
+            
         </div>
     </main>
     <footer>
